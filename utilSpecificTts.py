@@ -5,6 +5,8 @@ import datetime
 import torch, torchaudio
 import shortuuid
 from utils.logger_settings import api_logger
+import argparse
+
 
 gChat = None
 seeds = {
@@ -80,6 +82,32 @@ def generate_audio(text,
     torchaudio.save(outPath, torch.from_numpy(wav[0]), 24000)
     # return [(sample_rate, audio_data), text_data]
 
+
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--text", type=str)
+parser.add_argument("--out-path", type=str)
+parser.add_argument("--audio-role", type=int, default=2222)
+args = parser.parse_args()
+
+srcText = args.text
+if not srcText:
+    api_logger.error("generate_audio text is none")
+    exit(1)
+
+outPath = args.out_path
+if not outPath:
+    api_logger.error("generate_audio outPath is none")
+    exit(1)
+
+audioRole = args.audio_role
+if not audioRole:
+    audioRole = 2222
+
+generate_audio(srcText, outPath, audio_seed_input=audioRole)
+
+# # annotation-dir 改为 annotation_dir 就可以直接调用
+# print(args.annotation_dir)
 
 if __name__ == "__main__":
     ans_id = getCurTimeStampStr()
