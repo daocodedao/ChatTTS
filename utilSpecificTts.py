@@ -6,7 +6,7 @@ import datetime
 import torch, torchaudio
 import shortuuid
 from utils.logger_settings import api_logger
-import argparse
+
 import cn2an
 import re
 # from utilDigit import convert_arabic_to_chinese_in_string
@@ -49,7 +49,7 @@ def generate_audio(text,
                    top_K = 20, 
                    audio_seed_input = 2222, 
                    text_seed_input = 42, 
-                   refine_text_flag = True):
+                   refine_text_flag = False):
 # 参数说明：
 
 # 情感控制
@@ -70,8 +70,8 @@ def generate_audio(text,
     if not gChat:
         gChat = ChatTTS.Chat()
         gChat.load_models()
-    if not outPath:
-        outPath = f"./out/{getCurTimeStampStr()}.wav"
+    # if not outPath:
+    #     outPath = f"./out/{getCurTimeStampStr()}.wav"
     if not text or len(text) == 0:
         api_logger.error("generate_audio text is none")
         exit(1)
@@ -97,7 +97,7 @@ def generate_audio(text,
                           params_infer_code=params_infer_code
                           )
     
-    wav = gChat.infer(text, 
+    wavs = gChat.infer(text, 
                      skip_refine_text=True, 
                      params_refine_text=params_refine_text, 
                      params_infer_code=params_infer_code
@@ -105,40 +105,19 @@ def generate_audio(text,
     
     # audio_data = np.array(wav[0]).flatten()
     # sample_rate = 24000
-    text_data = text[0] if isinstance(text, list) else text
-    api_logger.info(text_data)
-    torchaudio.save(outPath, torch.from_numpy(wav[0]), 24000)
+    # text_data = text[0] if isinstance(text, list) else text
+    # api_logger.info(text_data)
+    # if outPath:
+    #     torchaudio.save(outPath, torch.from_numpy(wav[0]), 24000)
+    # # return wav[0]
     # return [(sample_rate, audio_data), text_data]
 
-parser = argparse.ArgumentParser()
-parser.add_argument("--text-prompt", type=str)
-parser.add_argument("--out-path", type=str)
-parser.add_argument("--audio-role", type=int, default=2222)
-parser.add_argument("--process-id", type=str)
+    audoArray = [torch.from_numpy(i) for i in wavs]
+    combined_audio = torch.cat(audoArray, dim=1)
+    api_logger.info(f"保存音频文件到  {outPath}")
+    torchaudio.save(outPath, combined_audio, 24000)
 
-args = parser.parse_args()
 
-srcText = args.text_prompt
-if not srcText:
-    api_logger.error("generate_audio text is none")
-    exit(1)
-
-outPath = args.out_path
-if not outPath:
-    api_logger.error("generate_audio outPath is none")
-    exit(1)
-
-audioRole = args.audio_role
-if not audioRole:
-    audioRole = 2222
-
-api_logger.info("输入文字：" )
-api_logger.info(srcText)
-if platform.system() == "Darwin":
-    srcText = cn2an.transform(srcText, "an2cn")
-    api_logger.info("转换后文字：" )
-    api_logger.info(srcText)
-generate_audio(srcText, outPath, audio_seed_input=audioRole)
 
 # python utilSpecificTts.py --text "2004年就在 OpenAI 发布可以生成令人瞠目的视频的 Sora 和谷歌披露支持多达 150 万个Token上下文的 Gemini 1.5的几天后，Stability AI 最近展示了 Stable Diffusion 3 的预览版。" --out-path "./out/202303051504.wav" --audio-role 2222
 if __name__ == "__main__":
