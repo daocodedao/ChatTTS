@@ -97,7 +97,7 @@ def generate_audio(text,
                           params_infer_code=params_infer_code
                           )
         api_logger.info(text)
-        
+
     wavs = gChat.infer(text, 
                      skip_refine_text=True, 
                      params_refine_text=params_refine_text, 
@@ -112,11 +112,18 @@ def generate_audio(text,
     #     torchaudio.save(outPath, torch.from_numpy(wav[0]), 24000)
     # # return wav[0]
     # return [(sample_rate, audio_data), text_data]
-
-    audoArray = [torch.from_numpy(i) for i in wavs]
-    combined_audio = torch.cat(audoArray, dim=1)
-    api_logger.info(f"保存音频文件到  {outPath}")
-    torchaudio.save(outPath, combined_audio, 24000)
+    if isinstance(text, list): 
+        api_logger.info("准备合并视频")
+        audoArray = [torch.from_numpy(i) for i in wavs]
+        combined_audio = torch.cat(audoArray, dim=1)
+        api_logger.info(f"保存音频文件到  {outPath}")
+        torchaudio.save(outPath, combined_audio, 24000)
+    elif isinstance(text, str):
+        if outPath:
+            api_logger.info(f"保存音频文件到  {outPath}")
+            torchaudio.save(outPath, torch.from_numpy(wavs[0]), 24000)
+    
+    return wavs
 
 
 

@@ -39,7 +39,15 @@ if platform.system() == "Darwin":
 srcText = srcText.strip("\n")
 srcText = srcText.replace("\n\n", "\n")
 texts = srcText.split("\n")
-audio = generate_audio(texts, outPath, audio_seed_input=audioRole)
+audioArray = []
+for text in texts:
+    api_logger.info(f"准备TTS {text}")
+    audios = generate_audio(text, outPath, audio_seed_input=audioRole)
+    audioArray = audioArray + [torch.from_numpy(i) for i in audios]
 
+
+combined_audio = torch.cat(audioArray, dim=1)
+api_logger.info(f"保存音频文件到  {outPath}")
+torchaudio.save(outPath, combined_audio, 24000)
 
     
