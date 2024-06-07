@@ -130,12 +130,12 @@ audioRole = args.audio_role
 if not audioRole:
     audioRole = 2222
 
-text = cn2an.transform(srcText, "an2cn")
 api_logger.info("输入文字：" )
 api_logger.info(srcText)
-api_logger.info("转换后文字：" )
-api_logger.info(text)
-generate_audio(text, outPath, audio_seed_input=audioRole)
+# srcText = cn2an.transform(srcText, "an2cn")
+# api_logger.info("转换后文字：" )
+# api_logger.info(srcText)
+generate_audio(srcText, outPath, audio_seed_input=audioRole)
 
 # python utilSpecificTts.py --text "2004年就在 OpenAI 发布可以生成令人瞠目的视频的 Sora 和谷歌披露支持多达 150 万个Token上下文的 Gemini 1.5的几天后，Stability AI 最近展示了 Stable Diffusion 3 的预览版。" --out-path "./out/202303051504.wav" --audio-role 2222
 if __name__ == "__main__":
