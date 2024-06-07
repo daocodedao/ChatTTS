@@ -9,7 +9,7 @@ from utils.logger_settings import api_logger
 
 ans_id = getCurTimeStampStr()
 wavDir="./out/"
-outPath = f"{wavDir}{ans_id}.wav"
+outPath = f"{wavDir}{ans_id}.mp3"
 text = "2004年就在 OpenAI 发布可以生成令人瞠目的视频的 Sora \n谷歌披露支持多达 150 万个Token上下文的 Gemini 1.5\n几天后，Stability AI 最近展示了 Stable Diffusion 3 的预览版。"
 
 # text=convert_arabic_to_chinese_in_string(text)
