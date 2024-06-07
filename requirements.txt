@@ -14,3 +14,4 @@ pynini
 shortuuid
 gradio
 cn2an
+WeTextProcessing
