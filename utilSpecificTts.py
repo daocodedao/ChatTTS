@@ -1,4 +1,5 @@
-import torch
+import os
+import platform
 import numpy as np
 import ChatTTS
 import datetime
@@ -9,6 +10,16 @@ import argparse
 import cn2an
 import re
 # from utilDigit import convert_arabic_to_chinese_in_string
+
+def getProxy():
+    if platform.system() == "Linux":
+        return "192.168.0.77:18808"
+    else:
+        return "127.0.0.1:10809"
+
+os.environ['HTTP_PROXY'] = getProxy()
+os.environ['HTTPS_PROXY'] = getProxy()
+
 
 gChat = None
 seeds = {
@@ -126,7 +137,7 @@ api_logger.info("转换后文字：" )
 api_logger.info(text)
 generate_audio(srcText, outPath, audio_seed_input=audioRole)
 
-
+# python utilSpecificTts.py --text "2004年就在 OpenAI 发布可以生成令人瞠目的视频的 Sora 和谷歌披露支持多达 150 万个Token上下文的 Gemini 1.5的几天后，Stability AI 最近展示了 Stable Diffusion 3 的预览版。" --out-path "./out/202303051504.wav" --audio-role 2222
 if __name__ == "__main__":
     ans_id = getCurTimeStampStr()
     wavDir="./out/"
