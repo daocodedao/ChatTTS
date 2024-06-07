@@ -49,7 +49,7 @@ def generate_audio(text,
                    top_K = 20, 
                    audio_seed_input = 2222, 
                    text_seed_input = 42, 
-                   refine_text_flag = False):
+                   refine_text_flag = True):
 # 参数说明：
 
 # 情感控制
