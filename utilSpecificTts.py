@@ -96,7 +96,8 @@ def generate_audio(text,
                           params_refine_text=params_refine_text,
                           params_infer_code=params_infer_code
                           )
-    
+        api_logger.info(text)
+        
     wavs = gChat.infer(text, 
                      skip_refine_text=True, 
                      params_refine_text=params_refine_text, 
