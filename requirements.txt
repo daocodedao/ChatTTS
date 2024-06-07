@@ -13,3 +13,4 @@ nemo_text_processing
 pynini
 shortuuid
 gradio
+cn2an
