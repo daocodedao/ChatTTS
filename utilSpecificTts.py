@@ -99,17 +99,6 @@ def generate_audio(text,
     torchaudio.save(outPath, torch.from_numpy(wav[0]), 24000)
     # return [(sample_rate, audio_data), text_data]
 
-
-def convert_arabic_to_chinese_in_string(s):
-    def replace_func(match):
-        number = match.group(0)
-        return an2cn(number)
-
-    # 匹配所有的阿拉伯数字
-    converted_str = re.sub(r'\d+', replace_func, s)
-    return converted_str
-
-
 parser = argparse.ArgumentParser()
 parser.add_argument("--text", type=str)
 parser.add_argument("--out-path", type=str)
