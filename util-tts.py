@@ -37,6 +37,7 @@ if platform.system() == "Darwin":
     api_logger.info(srcText)
 
 srcText = srcText.strip("\n")
+srcText = srcText.replace("\\n", "\n")
 srcText = srcText.replace("\n\n", "\n")
 texts = srcText.split("\n")
 
