@@ -114,6 +114,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--text-prompt", type=str)
 parser.add_argument("--out-path", type=str)
 parser.add_argument("--audio-role", type=int, default=2222)
+parser.add_argument("--process-id", type=str)
+
 args = parser.parse_args()
 
 srcText = args.text_prompt
