@@ -111,12 +111,12 @@ def generate_audio(text,
     # return [(sample_rate, audio_data), text_data]
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--text", type=str)
+parser.add_argument("--text-prompt", type=str)
 parser.add_argument("--out-path", type=str)
 parser.add_argument("--audio-role", type=int, default=2222)
 args = parser.parse_args()
 
-srcText = args.text
+srcText = args.text_prompt
 if not srcText:
     api_logger.error("generate_audio text is none")
     exit(1)
