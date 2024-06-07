@@ -37,7 +37,9 @@ if platform.system() == "Darwin":
     api_logger.info(srcText)
 
 srcText = srcText.strip("\n")
+api_logger.info(f"srcText1 {srcText}")
 srcText = srcText.replace("\n\n", "\n")
+api_logger.info(f"srcText2 {srcText}")
 texts = srcText.split("\n")
 api_logger.info(f"文字数组长度 {len(texts)}")
 audioArray = []
