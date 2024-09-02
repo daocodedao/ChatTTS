@@ -85,8 +85,12 @@ def generate_audio(text,
         'top_P': top_P,
         'top_K': top_K,
         }
-    params_refine_text = {'prompt': '[break_0]'}
-    
+    # params_refine_text = {'prompt': '[break_0]'}
+    params_refine_text = ChatTTS.Chat.RefineTextParams(
+        prompt='[break_0]',
+    )
+
+
     torch.manual_seed(text_seed_input)
 
     if refine_text_flag:
