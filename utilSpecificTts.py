@@ -69,7 +69,7 @@ def generate_audio(text,
     global gChat
     if not gChat:
         gChat = ChatTTS.Chat()
-        gChat.load_models()
+        gChat.load(compile=False) 
     # if not outPath:
     #     outPath = f"./out/{getCurTimeStampStr()}.wav"
     if not text or len(text) == 0:
@@ -112,8 +112,10 @@ def generate_audio(text,
     #     torchaudio.save(outPath, torch.from_numpy(wav[0]), 24000)
     # # return wav[0]
     # return [(sample_rate, audio_data), text_data]
+
+    
     if isinstance(text, list): 
-        api_logger.info("准备合并视频")
+        api_logger.info("准备合并音频")
         audoArray = [torch.from_numpy(i) for i in wavs]
         combined_audio = torch.cat(audoArray, dim=1)
         api_logger.info(f"保存音频文件到  {outPath}")
