@@ -79,12 +79,19 @@ def generate_audio(text,
     # torch.manual_seed(audio_seed_input)
     deterministic(audio_seed_input)
     rand_spk = gChat.sample_random_speaker()
-    params_infer_code = {
-        'spk_emb': rand_spk, 
-        'temperature': temperature,
-        'top_P': top_P,
-        'top_K': top_K,
-        }
+    # params_infer_code = {
+    #     'spk_emb': rand_spk, 
+    #     'temperature': temperature,
+    #     'top_P': top_P,
+    #     'top_K': top_K,
+    #     }
+    
+    params_infer_code = ChatTTS.Chat.InferCodeParams(
+        spk_emb = rand_spk, # add sampled speaker 
+        temperature = temperature,   # using custom temperature
+        top_P = top_P,        # top P decode
+        top_K = top_K,         # top K decode
+    )
     # params_refine_text = {'prompt': '[break_0]'}
     params_refine_text = ChatTTS.Chat.RefineTextParams(
         prompt='[break_0]',
