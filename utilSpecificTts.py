@@ -1,14 +1,21 @@
 import os
 import platform
 import numpy as np
-import ChatTTS
+
 import datetime
 import torch, torchaudio
+torch._dynamo.config.cache_size_limit = 64
+torch._dynamo.config.suppress_errors = True
+torch.set_float32_matmul_precision('high')
+
+
 import shortuuid
 from utils.logger_settings import api_logger
 
 import cn2an
 import re
+import ChatTTS
+
 # from utilDigit import convert_arabic_to_chinese_in_string
 
 def getProxy():
@@ -125,10 +132,19 @@ def generate_audio(text,
     # return [(sample_rate, audio_data), text_data]
 
     
+    if isinstance(text, list): 
+        api_logger.info("准备合并音频")
+        audoArray = [torch.from_numpy(i) for i in wavs]
+        combined_audio = torch.cat(audoArray, dim=0)
+        api_logger.info(f"保存音频文件到  {outPath}")
+        if outPath:
+            torchaudio.save(outPath, combined_audio, 24000)
+    elif isinstance(text, str):
+        if outPath:
+            api_logger.info(f"保存音频文件到  {outPath}")
+            torchaudio.save(outPath, torch.from_numpy(wavs[0]), 24000)
     
-    torchaudio.save(outPath, torch.from_numpy(wavs[0]), 24000)
-
-
+    # torchaudio.save(outPath, torch.from_numpy(wavs[0]), 24000)
     return wavs
 
 

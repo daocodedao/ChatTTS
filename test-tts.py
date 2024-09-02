@@ -29,6 +29,6 @@ for text in texts:
     audioArray = audioArray + [torch.from_numpy(i) for i in audios]
 
 
-combined_audio = torch.cat(audioArray, dim=1)
+combined_audio = torch.cat(audioArray, dim=0)
 api_logger.info(f"保存音频文件到  {outPath}")
 torchaudio.save(outPath, combined_audio, 24000)
