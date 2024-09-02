@@ -1,17 +1,17 @@
 --extra-index-url https://download.pytorch.org/whl/cu118
-omegaconf
-torch
+numpy<2.0.0
+numba
+torch>=2.1.0
+torchaudio
 tqdm
-einops
 vector_quantize_pytorch
-transformers
+transformers>=4.41.1
 vocos
 IPython
-# pynini==2.1.5
-Cython
-nemo_text_processing
-pynini
-shortuuid
 gradio
-cn2an
-WeTextProcessing
+pybase16384
+pynini==2.1.5; sys_platform == 'linux'
+WeTextProcessing; sys_platform == 'linux'
+nemo_text_processing; sys_platform == 'linux'
+av
+pydub
