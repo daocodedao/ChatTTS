@@ -28,7 +28,7 @@ texts = srcText.split("\n")
 audioArray = []
 for text in texts:
     api_logger.info(f"准备TTS {text}")
-    audios = generate_audio(text, outPath, audio_seed_input=audioRole)
+    audios = generate_audio(text, None, audio_seed_input=audioRole)
     audioArray = audioArray + [torch.from_numpy(i) for i in audios]
 
 
