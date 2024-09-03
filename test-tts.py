@@ -7,6 +7,15 @@ from utilSpecificTts import getCurTimeStampStr, generate_audio
 import cn2an
 from utils.logger_settings import api_logger
 import numpy as np
+from tools.audio import pcm_arr_to_mp3_view
+
+
+def save_mp3_file(wav, index):
+    data = pcm_arr_to_mp3_view(wav)
+    mp3_filename = f"output_audio_{index}.mp3"
+    with open(mp3_filename, "wb") as f:
+        f.write(data)
+    api_logger.info(f"Audio saved to {mp3_filename}")
 
 
 ans_id = getCurTimeStampStr()
@@ -39,4 +48,4 @@ api_logger.info(f"音频文件长度  {len(wavs_list)}")
 # combined_audio = torch.cat(wavs_list, dim=0)
 api_logger.info(f"保存音频文件到  {outPath}")
 # torchaudio.save(outPath, combined_audio, 24000)
-torchaudio.save(outPath, np.concatenate(wavs_list, axis=1), 24000)
+torchaudio.save(outPath, torch.from_numpy(np.concatenate(wavs_list, axis=1)), 24000)
