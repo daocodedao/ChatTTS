@@ -15,7 +15,7 @@ from utils.logger_settings import api_logger
 parser = argparse.ArgumentParser()
 parser.add_argument("--text-prompt", type=str)
 parser.add_argument("--out-path", type=str)
-parser.add_argument("--audio-role", type=int, default=2222)
+parser.add_argument("--audio-role", type=int, default=6615)
 # parser.add_argument("--process-id", type=str)
 
 args = parser.parse_args()
@@ -32,7 +32,7 @@ if not outPath:
 
 audioRole = args.audio_role
 if not audioRole:
-    audioRole = 2222
+    audioRole = 6615
 
 api_logger.info("输入文字：" )
 api_logger.info(srcText)
