@@ -48,16 +48,15 @@ srcText = srcText.replace("\\n", "\n")
 srcText = srcText.replace("\n\n", "\n")
 texts = srcText.split("\n")
 
-os.makedirs(outPath, exist_ok=True)
 outDir = os.path.dirname(outPath)
+os.makedirs(outDir, exist_ok=True)
 file_name_without_extension = os.path.splitext(os.path.basename(outPath))[0]
-
 
 api_logger.info(f"文字数组长度 {len(texts)}")
 wavsPathList = []
 for idx,text in enumerate(texts) :
     api_logger.info(f"准备TTS {text}")
-    outIdxPath = f"{outDir}/{file_name_without_extension}_{idx}.mp3"
+    outIdxPath = f"{outDir}/{file_name_without_extension}_{idx}.wav"
     audios = generate_audio(text, outIdxPath, audio_seed_input=audioRole)
     # audioArray = audioArray + [torch.from_numpy(i) for i in audios]
     # wavsPathList = wavsPathList + [i for i in audios]
