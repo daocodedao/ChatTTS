@@ -15,7 +15,6 @@ import ChatTTS
 from utils.logger_settings import api_logger
 
 
-# 参考 https://zhuanlan.zhihu.com/p/703678333
 
 
 # from utilDigit import convert_arabic_to_chinese_in_string
@@ -72,6 +71,7 @@ def generate_audio(text,
                    text_seed_input = 42, 
                    refine_text_flag = True):
 # 参数说明：
+# 参考 https://zhuanlan.zhihu.com/p/703678333
 
 # 情感控制
 # speed : 控制音频速度，范围为 0-9，数字越大，速度越快
@@ -115,7 +115,7 @@ def generate_audio(text,
     )
     # params_refine_text = {'prompt': '[break_0]'}
     params_refine_text = ChatTTS.Chat.RefineTextParams(
-        prompt='[break_0][speed_9]',
+        prompt='[break_0][speed_9][oral-0][laugh_0]',
     )
 
 
