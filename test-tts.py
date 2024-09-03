@@ -6,6 +6,8 @@ import time,datetime,json,os,sys
 from utilSpecificTts import getCurTimeStampStr, generate_audio
 import cn2an
 from utils.logger_settings import api_logger
+import numpy as np
+
 
 ans_id = getCurTimeStampStr()
 wavDir="./out/"
@@ -25,14 +27,16 @@ srcText = srcText.strip("\n")
 srcText = srcText.replace("\n\n", "\n")
 texts = srcText.split("\n")
 
-audioArray = []
+wavs_list = []
 for text in texts:
     api_logger.info(f"准备TTS {text}")
-    wavs = generate_audio(text, None, audio_seed_input=audioRole)
-    audioArray = audioArray + [torch.from_numpy(i) for i in wavs]
+    audios = generate_audio(text, None, audio_seed_input=audioRole)
+    # wavs_list = wavs_list + [torch.from_numpy(i) for i in wavs]
+    wavs_list = wavs_list + [i for i in audios]
 
-api_logger.info(f"音频文件长度  {len(audioArray)}")
+api_logger.info(f"音频文件长度  {len(wavs_list)}")
 
-combined_audio = torch.cat(audioArray, dim=0)
+combined_audio = torch.cat(wavs_list, dim=0)
 api_logger.info(f"保存音频文件到  {outPath}")
-torchaudio.save(outPath, combined_audio, 24000)
+# torchaudio.save(outPath, combined_audio, 24000)
+torchaudio.save(outPath, np.concatenate(wavs_list, axis=1), 24000)
