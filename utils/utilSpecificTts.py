@@ -112,7 +112,7 @@ def generate_audio(text,
     )
     # params_refine_text = {'prompt': '[break_0]'}
     params_refine_text = ChatTTS.Chat.RefineTextParams(
-        prompt='[break_0]',
+        prompt='[break_0][speed_9]',
     )
 
 
