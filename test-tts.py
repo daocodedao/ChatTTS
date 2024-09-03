@@ -20,7 +20,7 @@ def save_mp3_file(wav, index):
 
 ans_id = getCurTimeStampStr()
 wavDir="./out/"
-outPath = f"{wavDir}{ans_id}.wav"
+outPath = f"{wavDir}{ans_id}.mp3"
 
 os.makedirs(wavDir, exist_ok=True)
 
@@ -46,7 +46,7 @@ wavs_list = []
 for i,text in enumerate(texts):
     api_logger.info(f"准备TTS {text}")
     outPathIdx = f"{wavDir}{ans_id}_{i}.wav"
-    audios = generate_audio(text, outPathIdx, audio_seed_input=audioRole)
+    audios = generate_audio(text, None, audio_seed_input=audioRole)
     # wavs_list = wavs_list + [torch.from_numpy(i) for i in wavs]
     wavs_list.append(audios)
 
@@ -55,4 +55,8 @@ for i,text in enumerate(texts):
 # # combined_audio = torch.cat(wavs_list, dim=0)
 # api_logger.info(f"保存音频文件到  {outPath}")
 # # torchaudio.save(outPath, combined_audio, 24000)
-# torchaudio.save(outPath, torch.from_numpy(np.concatenate(wavs_list, axis=1)), 24000)
+torchaudio.save(outPath, torch.from_numpy(np.concatenate(wavs_list, axis=1)), 24000)
+try:
+    torchaudio.save(outPath, torch.from_numpy(wavs[0]).unsqueeze(0), 24000)
+except:
+    torchaudio.save(outPath, torch.from_numpy(wavs[0]), 24000)
