@@ -32,6 +32,12 @@ api_logger.info("转换")
 api_logger.info(text)
 audioRole=2222
 
+from tools.audio import float_to_int16, has_ffmpeg_installed, load_audio
+
+use_mp3 = has_ffmpeg_installed()
+if not use_mp3:
+    logger.warning("no ffmpeg installed, use wav file output")
+
 srcText = srcText.strip("\n")
 srcText = srcText.replace("\n\n", "\n")
 texts = srcText.split("\n")
