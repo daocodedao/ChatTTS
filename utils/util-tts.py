@@ -1,12 +1,14 @@
 import torch, torchaudio
 import shortuuid
 import time,datetime,json,os,sys
-from utilSpecificTts import getCurTimeStampStr, generate_audio
+from utilSpecificTts import getCurTimeStampStr, generate_audio, merge_audio_files 
 import cn2an
 from utils.logger_settings import api_logger
 import argparse
 import platform
 import numpy as np
+
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--text-prompt", type=str)
@@ -32,27 +34,41 @@ if not audioRole:
 
 api_logger.info("输入文字：" )
 api_logger.info(srcText)
-if platform.system() == "Darwin":
-    srcText = cn2an.transform(srcText, "an2cn")
-    api_logger.info("转换后文字：" )
-    api_logger.info(srcText)
+
+# if platform.system() == "Darwin":
+#     # 阿拉伯数字 转换为 中文数字
+#     srcText = cn2an.transform(srcText, "an2cn")
+#     api_logger.info("转换后文字：" )
+#     api_logger.info(srcText)
 
 srcText = srcText.strip("\n")
 srcText = srcText.replace("\\n", "\n")
 srcText = srcText.replace("\n\n", "\n")
 texts = srcText.split("\n")
 
+os.makedirs(outPath, exist_ok=True)
+outDir = os.path.dirname(outPath)
+file_name_without_extension = os.path.splitext(os.path.basename(outPath))[0]
+
+
 api_logger.info(f"文字数组长度 {len(texts)}")
 wavs_list = []
-for text in texts:
+for idx,text in enumerate(texts) :
     api_logger.info(f"准备TTS {text}")
-    audios = generate_audio(text, outPath, audio_seed_input=audioRole)
+    outIdxPath = f"{outDir}/{file_name_without_extension}_{idx}.mp3"
+    audios = generate_audio(text, outIdxPath, audio_seed_input=audioRole)
     # audioArray = audioArray + [torch.from_numpy(i) for i in audios]
-    wavs_list = wavs_list + [i for i in audios]
+    # wavs_list = wavs_list + [i for i in audios]
+    if os.path.exists(outIdxPath):
+        wavs_list.append(outIdxPath)
+
+
+api_logger.info(f"保存音频文件到  {outPath}")
+merge_audio_files(wavs_list, outPath)
 
 # combined_audio = torch.cat(audioArray, dim=1)
-api_logger.info(f"保存音频文件到  {outPath}")
-torchaudio.save(outPath, np.concatenate(wavs_list, axis=1), 24000)
+
+# torchaudio.save(outPath, np.concatenate(wavs_list, axis=1), 24000)
 # torchaudio.save(outPath, torch.from_numpy(wavs[0]), 24000)
 
     

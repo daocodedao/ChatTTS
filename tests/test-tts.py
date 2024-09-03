@@ -3,11 +3,11 @@ from IPython.display import Audio
 import torch, torchaudio
 import shortuuid
 import time,datetime,json,os,sys
-from utilSpecificTts import getCurTimeStampStr, generate_audio
 import cn2an
 from utils.logger_settings import api_logger
 import numpy as np
 from tools.audio import pcm_arr_to_mp3_view
+from utils.utilSpecificTts import getCurTimeStampStr, generate_audio,merge_audio_files
 
 
 def save_mp3_file(wav, index):
@@ -42,21 +42,14 @@ srcText = srcText.strip("\n")
 srcText = srcText.replace("\n\n", "\n")
 texts = srcText.split("\n")
 
-wavs_list = []
+wavsPathList = []
 for i,text in enumerate(texts):
     api_logger.info(f"准备TTS {text}")
     outPathIdx = f"{wavDir}{ans_id}_{i}.mp3"
     audios = generate_audio(text, outPathIdx, audio_seed_input=audioRole)
-    # wavs_list = wavs_list + [torch.from_numpy(i) for i in wavs]
-    wavs_list.append(audios)
+    wavsPathList.append(outPathIdx)
 
-# api_logger.info(f"音频文件长度  {len(wavs_list)}")
 
-# # combined_audio = torch.cat(wavs_list, dim=0)
-# api_logger.info(f"保存音频文件到  {outPath}")
-# # torchaudio.save(outPath, combined_audio, 24000)
-# torchaudio.save(outPath, torch.from_numpy(np.concatenate(wavs_list, axis=1)), 24000)
-# try:
-#     torchaudio.save(outPath, torch.from_numpy(wavs[0]).unsqueeze(0), 24000)
-# except:
-#     torchaudio.save(outPath, torch.from_numpy(wavs[0]), 24000)
+api_logger.info(f"保存音频文件到  {outPath}")
+merge_audio_files(wavsPathList, outPath)
+

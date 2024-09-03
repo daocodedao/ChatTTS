@@ -28,6 +28,18 @@ os.environ['HTTP_PROXY'] = getProxy()
 os.environ['HTTPS_PROXY'] = getProxy()
 
 
+def merge_audio_files(audio_files, output_file):
+    # 加载第一个音频文件，获取其形状和采样率
+    waveform, sample_rate = torchaudio.load(audio_files[0])
+    
+    # 遍历其余音频文件，将它们的波形数据拼接到第一个文件的波形数据后面
+    for file in audio_files[1:]:
+        waveform_append, sample_rate_append = torchaudio.load(file)
+        waveform = torch.cat((waveform, waveform_append), dim=1)
+        
+    # 将合并后的波形数据保存为新的音频文件
+    torchaudio.save(output_file, waveform, sample_rate)
+
 gChat = None
 seeds = {
     "旁白2222": {"seed": 2222},
