@@ -1,20 +1,19 @@
 import os
 import platform
 import numpy as np
-
 import datetime
 import torch, torchaudio
 torch._dynamo.config.cache_size_limit = 64
 torch._dynamo.config.suppress_errors = True
 torch.set_float32_matmul_precision('high')
-
-
-import shortuuid
-from utils.logger_settings import api_logger
-
 import cn2an
 import re
+
+import sys,os
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 import ChatTTS
+from utils.logger_settings import api_logger
+
 
 # from utilDigit import convert_arabic_to_chinese_in_string
 

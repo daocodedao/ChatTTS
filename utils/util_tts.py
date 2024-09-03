@@ -3,11 +3,13 @@ import shortuuid
 import time,datetime,json,os,sys
 from utilSpecificTts import getCurTimeStampStr, generate_audio, merge_audio_files 
 import cn2an
-from utils.logger_settings import api_logger
 import argparse
 import platform
 import numpy as np
 
+import sys,os
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
+from utils.logger_settings import api_logger
 
 
 parser = argparse.ArgumentParser()
