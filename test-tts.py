@@ -20,7 +20,7 @@ def save_mp3_file(wav, index):
 
 ans_id = getCurTimeStampStr()
 wavDir="./out/"
-outPath = f"{wavDir}{ans_id}.mp3"
+outPath = f"{wavDir}{ans_id}.wav"
 
 os.makedirs(wavDir, exist_ok=True)
 
