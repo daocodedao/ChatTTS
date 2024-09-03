@@ -32,7 +32,7 @@ for text in texts:
     api_logger.info(f"准备TTS {text}")
     audios = generate_audio(text, None, audio_seed_input=audioRole)
     # wavs_list = wavs_list + [torch.from_numpy(i) for i in wavs]
-    wavs_list = wavs_list.append(audios)
+    wavs_list.append(audios)
 
 api_logger.info(f"音频文件长度  {len(wavs_list)}")
 
