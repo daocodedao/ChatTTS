@@ -131,16 +131,14 @@ def generate_audio(text,
     # # return wav[0]
     # return [(sample_rate, audio_data), text_data]
 
-    
-    if isinstance(text, list): 
-        api_logger.info("准备合并音频")
-        audoArray = [torch.from_numpy(i) for i in wavs]
-        combined_audio = torch.cat(audoArray, dim=1)
-        if outPath:
+    if outPath:
+        if isinstance(text, list): 
+            api_logger.info("准备合并音频")
+            audoArray = [torch.from_numpy(i) for i in wavs]
+            combined_audio = torch.cat(audoArray, dim=1)
             api_logger.info(f"保存音频文件到  {outPath}")
             torchaudio.save(outPath, combined_audio, 24000)
-    elif isinstance(text, str):
-        if outPath:
+        elif isinstance(text, str):
             api_logger.info(f"保存音频文件到  {outPath}")
             torchaudio.save(outPath, torch.from_numpy(wavs[0]), 24000)
     

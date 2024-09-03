@@ -47,7 +47,7 @@ for text in texts:
     api_logger.info(f"准备TTS {text}")
     audios = generate_audio(text, outPath, audio_seed_input=audioRole)
     audioArray = audioArray + [torch.from_numpy(i) for i in audios]
-
+    
 
 combined_audio = torch.cat(audioArray, dim=1)
 api_logger.info(f"保存音频文件到  {outPath}")

@@ -9,7 +9,7 @@ from utils.logger_settings import api_logger
 
 ans_id = getCurTimeStampStr()
 wavDir="./out/"
-outPath = f"{wavDir}{ans_id}.mp3"
+outPath = f"{wavDir}{ans_id}.wav"
 
 os.makedirs(wavDir, exist_ok=True)
 
