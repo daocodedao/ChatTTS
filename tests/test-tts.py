@@ -1,14 +1,17 @@
-import ChatTTS
+
 from IPython.display import Audio
 import torch, torchaudio
 import shortuuid
 import time,datetime,json,os,sys
 import cn2an
-from utils.logger_settings import api_logger
 import numpy as np
+# import 路径修改
+import sys,os
+sys.path.append(os.path.join(os.path.dirname(__file__), ".."))
 from tools.audio import pcm_arr_to_mp3_view
 from utils.utilSpecificTts import getCurTimeStampStr, generate_audio,merge_audio_files
-
+import ChatTTS
+from utils.logger_settings import api_logger
 
 def save_mp3_file(wav, index):
     data = pcm_arr_to_mp3_view(wav)
