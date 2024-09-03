@@ -33,6 +33,6 @@ for text in texts:
 
 api_logger.info(f"音频文件长度  {len(audioArray)}")
 
-combined_audio = torch.cat(audioArray, dim=0)
+combined_audio = torch.cat(audioArray, dim=1)
 api_logger.info(f"保存音频文件到  {outPath}")
 torchaudio.save(outPath, combined_audio, 24000)
