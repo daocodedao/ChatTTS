@@ -14,7 +14,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--text-prompt", type=str)
 parser.add_argument("--out-path", type=str)
 parser.add_argument("--audio-role", type=int, default=2222)
-parser.add_argument("--process-id", type=str)
+# parser.add_argument("--process-id", type=str)
 
 args = parser.parse_args()
 
@@ -52,23 +52,27 @@ file_name_without_extension = os.path.splitext(os.path.basename(outPath))[0]
 
 
 api_logger.info(f"文字数组长度 {len(texts)}")
-wavs_list = []
+wavsPathList = []
 for idx,text in enumerate(texts) :
     api_logger.info(f"准备TTS {text}")
     outIdxPath = f"{outDir}/{file_name_without_extension}_{idx}.mp3"
     audios = generate_audio(text, outIdxPath, audio_seed_input=audioRole)
     # audioArray = audioArray + [torch.from_numpy(i) for i in audios]
-    # wavs_list = wavs_list + [i for i in audios]
+    # wavsPathList = wavsPathList + [i for i in audios]
     if os.path.exists(outIdxPath):
-        wavs_list.append(outIdxPath)
+        wavsPathList.append(outIdxPath)
 
 
 api_logger.info(f"保存音频文件到  {outPath}")
-merge_audio_files(wavs_list, outPath)
+merge_audio_files(wavsPathList, outPath)
+
+api_logger.info(f"删除临时文件")
+for tmpTath in wavsPathList:
+    os.remove(tmpTath)
 
 # combined_audio = torch.cat(audioArray, dim=1)
 
-# torchaudio.save(outPath, np.concatenate(wavs_list, axis=1), 24000)
+# torchaudio.save(outPath, np.concatenate(wavsPathList, axis=1), 24000)
 # torchaudio.save(outPath, torch.from_numpy(wavs[0]), 24000)
 
     
