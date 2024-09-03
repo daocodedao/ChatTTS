@@ -15,6 +15,9 @@ import ChatTTS
 from utils.logger_settings import api_logger
 
 
+# 参考 https://zhuanlan.zhihu.com/p/703678333
+
+
 # from utilDigit import convert_arabic_to_chinese_in_string
 
 def getProxy():
