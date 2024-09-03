@@ -36,7 +36,7 @@ from tools.audio import float_to_int16, has_ffmpeg_installed, load_audio
 
 use_mp3 = has_ffmpeg_installed()
 if not use_mp3:
-    logger.warning("no ffmpeg installed, use wav file output")
+    api_logger.warning("no ffmpeg installed, use wav file output")
 
 srcText = srcText.strip("\n")
 srcText = srcText.replace("\n\n", "\n")
