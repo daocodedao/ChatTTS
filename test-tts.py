@@ -36,7 +36,7 @@ for text in texts:
 
 api_logger.info(f"音频文件长度  {len(wavs_list)}")
 
-combined_audio = torch.cat(wavs_list, dim=0)
+# combined_audio = torch.cat(wavs_list, dim=0)
 api_logger.info(f"保存音频文件到  {outPath}")
 # torchaudio.save(outPath, combined_audio, 24000)
 torchaudio.save(outPath, np.concatenate(wavs_list, axis=1), 24000)
