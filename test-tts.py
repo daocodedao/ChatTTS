@@ -37,15 +37,16 @@ srcText = srcText.replace("\n\n", "\n")
 texts = srcText.split("\n")
 
 wavs_list = []
-for text in texts:
+for i,text in enumerate(texts):
     api_logger.info(f"准备TTS {text}")
+    outPathIdx = f"{wavDir}{ans_id}_{i}.wav"
     audios = generate_audio(text, None, audio_seed_input=audioRole)
     # wavs_list = wavs_list + [torch.from_numpy(i) for i in wavs]
     wavs_list.append(audios)
 
-api_logger.info(f"音频文件长度  {len(wavs_list)}")
+# api_logger.info(f"音频文件长度  {len(wavs_list)}")
 
-# combined_audio = torch.cat(wavs_list, dim=0)
-api_logger.info(f"保存音频文件到  {outPath}")
-# torchaudio.save(outPath, combined_audio, 24000)
-torchaudio.save(outPath, torch.from_numpy(np.concatenate(wavs_list, axis=1)), 24000)
+# # combined_audio = torch.cat(wavs_list, dim=0)
+# api_logger.info(f"保存音频文件到  {outPath}")
+# # torchaudio.save(outPath, combined_audio, 24000)
+# torchaudio.save(outPath, torch.from_numpy(np.concatenate(wavs_list, axis=1)), 24000)
