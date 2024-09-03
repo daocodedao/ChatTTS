@@ -45,7 +45,7 @@ texts = srcText.split("\n")
 wavs_list = []
 for i,text in enumerate(texts):
     api_logger.info(f"准备TTS {text}")
-    outPathIdx = f"{wavDir}{ans_id}_{i}.wav"
+    outPathIdx = f"{wavDir}{ans_id}_{i}.mp3"
     audios = generate_audio(text, outPathIdx, audio_seed_input=audioRole)
     # wavs_list = wavs_list + [torch.from_numpy(i) for i in wavs]
     wavs_list.append(audios)
